@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./hardware.nix
   ];
@@ -20,7 +17,6 @@
   networking = {
     hostName = "ivory";
     networkmanager.enable = true;
-    firewall.allowedTCPPorts = [ 22 ];
   };
 
   time.timeZone = "America/New_York";
@@ -28,42 +24,34 @@
   hardware = {
     enableAllFirmware = true;
     graphics.enable = true;
-    bluetooth = {
-      enable = true;
-      # settings."General"."Experimental" = true;
-    };
+    bluetooth.enable = true;
   };
 
-  services = {  
+  services = {
     pipewire = {
       enable = true;
       audio.enable = true;
-      wireplumber.enable = true;
-      alsa = {
-        enable = true;
-        support32Bit = true;
-      };
+
+      alsa.enable = true;
+      alsa.support32Bit = true;
+
       pulse.enable = true;
+      wireplumber.enable = true;
     };
-    openssh = {
-      enable = true;
-      ports = [ 22 ];
-    };
+
+    logind.lidSwitch = "ignore";
   };
 
   users.users.liuwilli = {
     isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-    ];
+    extraGroups = ["wheel" "networkmanager"];
     shell = pkgs.zsh;
   };
 
   programs = {
     zsh.enable = true;
-    dconf.enable = true;
+    hyprland.enable = true;
   };
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "25.05";
 }
