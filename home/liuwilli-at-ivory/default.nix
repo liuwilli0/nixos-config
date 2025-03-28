@@ -1,13 +1,17 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }: {
   imports = [
+    ../../mixed/stylix.nix
+    ./chromium.nix
     ./firefox.nix
     ./hyprland.nix
     ./rofi.nix
     ./waybar.nix
+    ./zsh.nix
   ];
 
   home.packages = with pkgs; [
@@ -23,42 +27,26 @@
     gnome-themes-extra
 
     # ciscoPacketTracer8
+    vlc
     superTux
     superTuxKart
+    prismlauncher
+    vesktop
   ];
 
   home.sessionVariables = {
     NIXOS_OZONE_WL = 1;
   };
 
-  home.shell.enableZshIntegration = true;
+  home.username = "liuwilli";
+  home.homeDirectory = "/home/liuwilli";
 
   nixpkgs.config.allowUnfree = true;
 
-  xdg = {
-    portal = {
-      enable = true;
-      extraPortals = [pkgs.xdg-desktop-portal-hyprland];
-      configPackages = [pkgs.hyprland];
-    };
-
-    configFile."oh-my-zsh/themes/bira-mod.zsh-theme".text = ''
-      local return_code="%(?..%{$fg[red]%}%? ←%{$reset_color%})"
-      local user_host="%B%(!.%{$fg[red]%}.%{$fg[green]%})%n@%m%{$reset_color%}"
-      local user_symbol='%(!.#.$)'
-      local current_dir="%B%{$fg[blue]%}%~%{$reset_color%}"
-      
-      local git_branch='$(git_prompt_info)'
-      
-      PROMPT="┌─(''${user_host})-[''${current_dir}] ''${git_branch}
-      └─%B''${user_symbol}%b "
-      RPROMPT="%B''${return_code}%b"
-      
-      ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[yellow]%}<"
-      ZSH_THEME_GIT_PROMPT_SUFFIX=">%{$reset_color%}"
-      ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%}•%{$fg[yellow]%}"
-      ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[yellow]%}"
-    '';
+  xdg.portal = {
+    enable = true;
+    extraPortals = [pkgs.xdg-desktop-portal-hyprland];
+    configPackages = [pkgs.hyprland];
   };
 
   i18n.inputMethod = {
@@ -66,43 +54,43 @@
     fcitx5.addons = with pkgs; [fcitx5-chinese-addons];
   };
 
-  fonts.fontconfig = {
-    enable = true;
-    defaultFonts = {
-      monospace = ["Iosevka Nerd Font"];
-      emoji = ["Noto Color Emoji"];
-      sansSerif = ["Noto Sans"];
-      serif = ["Noto Serif"];
+  # fonts.fontconfig = {
+  #   enable = true;
+  #   defaultFonts = {
+  #     monospace = ["Iosevka Nerd Font"];
+  #     emoji = ["Noto Color Emoji"];
+  #     sansSerif = ["Noto Sans"];
+  #     serif = ["Noto Serif"];
+  #   };
+  # };
+
+  # dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+
+  # gtk = {
+  #   enable = true;
+
+  #   theme.name = "Adwaita-dark";
+  #   iconTheme.name = "Adwaita-dark";
+  #   cursorTheme.name = "Adwaita-dark";
+  #   font.name = "Noto Sans";
+
+  #   gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
+  #   gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
+  # };
+
+  services = {
+    udiskie = {
+      enable = true;
+      settings.program_options.file_manager = "${pkgs.foot}/bin/foot ${pkgs.yazi}/bin/yazi";
     };
+
+    cliphist.enable = true;
+    dunst.enable = true;
+    swww.enable = true;
   };
-
-  dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
-
-  gtk = {
-    enable = true;
-
-    theme.name = "Adwaita-dark";
-    iconTheme.name = "Adwaita-dark";
-    cursorTheme.name = "Adwaita-dark";
-    font.name = "Noto Sans";
-
-    gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
-    gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
-  };
-
-  services.dunst.enable = true;
 
   programs = {
     home-manager.enable = true;
-
-    zsh = {
-      enable = true;
-      oh-my-zsh = {
-        enable = true;
-        custom = "${config.xdg.configHome}/oh-my-zsh";
-        theme = "bira-mod";
-      };
-    };
 
     git = {
       enable = true;
@@ -124,19 +112,10 @@
 
     foot = {
       enable = true;
-      settings.main.font = "Iosevka Nerd Font:size=14";
+      # settings.main.font = "Iosevka Nerd Font:size=14";
     };
 
-    chromium = {
-      enable = true;
-      package = pkgs.ungoogled-chromium;
-      extensions = [{ id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; }];
-    };
-  };
-
-  home = {
-    username = "liuwilli";
-    homeDirectory = "/home/liuwilli";
+    yazi.enable = true;
   };
 
   home.stateVersion = "25.05";

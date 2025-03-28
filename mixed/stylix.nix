@@ -6,13 +6,8 @@
   stylix = {
     enable = true;
 
-    image = pkgs.fetchurl {
-      url = "https://i.imgur.com/bG8ole4.jpeg";
-      hash = "sha256-oK5LnV6JNcset5MAqo5wXGV1SQ91xKc39jPdwDdWorU=";
-    };
-    polarity = "dark";
-
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-soft.yaml";
+    polarity = "dark";
 
     fonts = {
       serif = {

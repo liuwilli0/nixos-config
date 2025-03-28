@@ -27,8 +27,10 @@ _: {
           format-icons = ["󰕿" "󰖀" "󰕾"];
         };
 
-        backlight.format = " {percent}%";
-        # format-icons = ["󱩎" "󱩏" "󱩐" "󱩑" "󱩒" "󱩓" "󱩔" "󱩕" "󱩖" "󰛨"];
+        backlight = {
+          format = " {percent}%";
+          # format-icons = ["󱩎" "󱩏" "󱩐" "󱩑" "󱩒" "󱩓" "󱩔" "󱩕" "󱩖" "󰛨"];
+        };
 
         battery = {
           format = "󰂑 ?";
@@ -37,8 +39,8 @@ _: {
           format-plugged = " {icon} {capacity}%";
           format-not_charging = "!{icon} {capacity}%";
           format-full = "{icon} {capacity}% Full";
-          format-time = "{H} h {M} min";
           format-icons = ["󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹"];
+          tooltip-format = "{timeTo}\n{power}W power draw";
         };
 
         bluetooth = {
@@ -48,29 +50,45 @@ _: {
           format-on = "󰂯";
           format-connected = "󰂯 {device_alias}: {status}";
           format-connected-battery = "󰂯 {device_alias}: {status}, {device_battery_percentage}%";
+          format-no-controller = "󰂯 !";
+          tooltip-format = "󰂯 ?";
+          tooltip-format-disabled = "Controller is disabled";
+          tooltip-format-off = "Controller is off";
+          tooltip-format-on = "No devices connected";
+          tooltip-format-connected = "{device_enumerate}";
+          tooltip-format-connected-battery = "{device_enumerate}";
+          tooltip-format-enumerate-connected = "{device_address} {device_alias}";
+          tooltip-format-enumerate-connected-battery = "{device_address} {device_alias}, {device_battery_percentage}%";
+          tooltip-format-no-controller = "No controller found";
         };
 
         network = {
-	  format = "󰤨  ?";
+          format = "󰤨  ?";
+          format-ethernet = " ";
           format-wifi = "{icon} {signalStrength}% {essid}";
-	  format-ethernet = "  {ipaddr}/{cidr}";
-	  format-disconnected = "󰤭 ";
-	  format-linked = "󰤩 ";
-	  format-icons = ["󰤯 " "󰤟 " "󰤢 " "󰤥 " "󰤨 "];
-	};
+          format-linked = "󰤩 ";
+          format-disconnected = "󰤭 ";
+          format-disabled = "󰤭 Disabled";
+          format-icons = ["󰤯 " "󰤟 " "󰤢 " "󰤥 " "󰤨 "];
+          tooltip-format = "󰤨  ?";
+          tooltip-format-ethernet = "{ifname}: {ipaddr}/{cidr}";
+          tooltip-format-wifi = "{ifname}: {ipaddr}/{cidr}\n{frequency}MHz";
+          tooltip-format-disconnected = "Disconnected";
+          tooltip-format-disabled = "Interface is disabled";
+        };
 
         clock = {
           interval = 1;
           format = "{:%a %m/%d %r}";
-	  tooltip-format = "{calendar}";
+          tooltip-format = "{calendar}";
         };
       }
     ];
 
-    style = ''
-      * {
-        font-family: 'Iosevka Nerd Font';
-      }
-    '';
+    # style = ''
+    #   * {
+    #     font-family: 'Iosevka Nerd Font';
+    #   }
+    # '';
   };
 }

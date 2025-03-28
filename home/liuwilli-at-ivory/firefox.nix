@@ -30,16 +30,13 @@
     enable = true;
 
     profiles.profile0 = {
-      id = 0;
-      isDefault = true;
-
       search = {
-        default = "DuckDuckGo";
-        privateDefault = "DuckDuckGo";
+        default = "ddg";
+        privateDefault = "ddg";
         force = true;
       };
 
-      extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
+      extensions.packages = with inputs.firefox-addons.packages."x86_64-linux"; [
         ublock-origin
         bitwarden
         dearrow
@@ -66,7 +63,7 @@
 
         # Customize ui
         "browser.uiCustomization.state" = ''
-	  {
+          {
               "currentVersion": 20,
               "placements": {
                   "TabsToolbar": [
@@ -92,17 +89,19 @@
         "browser.startup.page" = 1;
         "browser.startup.homepage" = "about:home";
         "browser.newtabpage.enabled" = true;
-        "browser.newtabpage.activity-stream.showWeather" = false; # Not in arkenfox
+        "browser.newtabpage.activity-stream.feeds.topsites" = false; # Not in arkenfox, disable shortcuts in Firefox Home
+        "browser.newtabpage.activity-stream.showWeather" = false; # Not in arkenfox, disable show weather in Firefox Home
 
         # 0400: SAFE BROWSING
         "browser.safebrowsing.downloads.remote.enabled" = true;
 
         # 0700: DNS / DoH / PROXY / SOCKS
-        "network.trr.mode" = 3;
+        # "network.trr.mode" = 3;
 
         # 0800: LOCATION BAR / SEARCH BAR / SUGGESTIONS / HISTORY / FORMS
         "browser.urlbar.suggest.quicksuggest.sponsored" = false;
         "browser.urlbar.suggest.quicksuggest.nonsponsored" = false;
+        "datareporting.usage.uploadEnabled" = false; # Not in arkenfox, disable daily usage ping
 
         # 4500: RFP
         "privacy.resistFingerprinting" = false;
@@ -120,4 +119,17 @@
       };
     };
   };
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "text/html" = "firefox.desktop";
+      "x-scheme-handler/http" = "firefox.desktop";
+      "x-scheme-handler/https" = "firefox.desktop";
+      "x-scheme-handler/about" = "firefox.desktop";
+      "x-scheme-handler/unknown" = "firefox.desktop";
+    };
+  };
+
+  stylix.targets.firefox.profileNames = ["profile0"];
 }

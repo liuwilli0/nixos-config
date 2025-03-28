@@ -1,6 +1,11 @@
-{pkgs, ...}: {
+{config, pkgs, ...}: {
   imports = [
+    ../../mixed/stylix.nix
     ./hardware.nix
+  ];
+
+  environment.systemPackages = with pkgs; [
+    nextdns
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -16,7 +21,15 @@
 
   networking = {
     hostName = "ivory";
-    networkmanager.enable = true;
+    nameservers = ["127.0.0.1" "::1"];
+
+    dhcpcd.enable = false;
+    networkmanager = {
+      enable = true;
+      dns = "none";
+    };
+
+    wg-quick.interfaces."proton0".configFile = "/etc/wireguard/proton0.conf";
   };
 
   time.timeZone = "America/New_York";
@@ -39,18 +52,77 @@
       wireplumber.enable = true;
     };
 
+    greetd = {
+      enable = true;
+      settings.default_session.command = let hyprlandConfig = pkgs.writeText "greetd-hyprland-config" ''
+        exec-once = ${pkgs.greetd.regreet}/bin/regreet; ${pkgs.hyprland}/bin/hyprctl dispatch exit
+        misc {
+            disable_hyprland_logo = true
+            disable_splash_rendering = true
+            disable_hyprland_qtutils_check = true
+        }
+      ''; in "${pkgs.hyprland}/bin/Hyprland --config ${hyprlandConfig}";
+    };
+
+    nextdns = {
+      enable = true;
+      arguments = ["-profile" "ad35a8" "-cache-size" "10MB"];
+    };
+
+    # dnscrypt-proxy2 = {
+    #   enable = true;
+    #   settings = {
+    #     ipv6_servers = true;
+    #     require_dnssec = true;
+    #     sources.public-resolvers = {
+    #       urls = [
+    #         "https://download.dnscrypt.info/dnscrypt-resolvers/v3/public-resolvers.md"
+    #         "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md"
+    #       ];
+    #       cache_file = "/var/cache/dnscrypt-proxy/public-resolvers.md";
+    #       minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
+    #     };
+    #   };
+    # };
+
+    # libinput = {
+    #   enable = true;
+    #   touchpad = {
+    #     tapping = false;
+    #     middleEmulation = false;
+    #   };
+    #   mouse = {
+    #     tapping = false;
+    #     middleEmulation = false;
+    #   };
+    # };
+    udisks2.enable = true;
     logind.lidSwitch = "ignore";
+  };
+
+  programs = {
+    zsh.enable = true;
+    regreet.enable = true;
+    hyprland = {
+      enable = true;
+      withUWSM = true;
+    };
+    uwsm = {
+      enable = true;
+      waylandCompositors = {
+        hyprland = {
+          prettyName = "Hyprland";
+          comment = "Hyprland compositor managed by UWSM";
+          binPath = "/run/current-system/sw/bin/Hyprland";
+        };
+      };
+    };
   };
 
   users.users.liuwilli = {
     isNormalUser = true;
     extraGroups = ["wheel" "networkmanager"];
     shell = pkgs.zsh;
-  };
-
-  programs = {
-    zsh.enable = true;
-    hyprland.enable = true;
   };
 
   system.stateVersion = "25.05";

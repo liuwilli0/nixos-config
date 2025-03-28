@@ -1,10 +1,15 @@
 {
   description = "liuwilli's NixOS flake";
 
-  outputs = {self, nixpkgs, flake-parts, ...} @ inputs:
+  outputs = {
+    self,
+    nixpkgs,
+    flake-parts,
+    ...
+  } @ inputs:
     flake-parts.lib.mkFlake {inherit inputs;} {
       flake = {
-	homeConfigurations = import ./home inputs;
+        homeConfigurations = import ./home inputs;
         nixosConfigurations = import ./nixos inputs;
       };
 
@@ -25,6 +30,9 @@
     flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware";
+
+    stylix.url = "github:danth/stylix";
+    stylix.inputs.nixpkgs.follows = "nixpkgs";
 
     arkenfox.url = "https://github.com/arkenfox/user.js/raw/master/user.js";
     arkenfox.flake = false;

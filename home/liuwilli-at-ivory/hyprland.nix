@@ -11,8 +11,8 @@
 
       general = {
         layout = "hy3";
-        gaps_in = 4;
-        gaps_out = 8;
+        gaps_in = 2;
+        gaps_out = 4;
       };
 
       input = {
@@ -27,6 +27,13 @@
         name = "raydium-corporation-raydium-touch-system";
         output = "eDP-1";
       };
+
+      "$reloadWallpaper" = builtins.toString (pkgs.writeShellScript "reload-wallpaper" ''
+        while read -r monitor; do
+            wallpaper=$(find /etc/nixos/mixed/wallpapers -type f | shuf -n 1)
+            swww img -o "$monitor" --transition-type center --transition-step 255 --transition-fps 60 "$wallpaper"
+        done <<< $(swww query | grep -Po "^[^:]+")
+      '');
 
       exec-once = ["waybar"];
 
@@ -77,6 +84,7 @@
         "$mod+SHIFT, 9, movetoworkspace, 9"
         "$mod+SHIFT, 0, movetoworkspace, 10"
 
+        "$mod, W, exec, $reloadWallpaper"
         "$mod+CONTROL, R, exec, hyprctl reload"
         # "$mod+CONTROL, R, forcerendererreload"
         "$mod+CONTROL, Q, exit"
@@ -86,10 +94,10 @@
         "$mod, T, hy3:changegroup, toggletab"
         "$mod, V, hy3:makegroup, v, ephemeral"
         "$mod, B, hy3:makegroup, h, ephemeral"
-	"$mod+SHIFT, V, hy3:changegroup, v"
-	"$mod+SHIFT, B, hy3:changegroup, h"
+        "$mod+SHIFT, V, hy3:changegroup, v"
+        "$mod+SHIFT, B, hy3:changegroup, h"
 
-        "$mod, W, hy3:killactive"
+        "$mod, Q, hy3:killactive"
         "$mod, M, fullscreen"
 
         "$mod, Space, togglefloating"
@@ -106,7 +114,7 @@
         "$mod, R, exec, $menu"
       ];
 
-      binde = [        
+      binde = [
         ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_SINK@ 1%+"
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_SINK@ 1%-"
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_SINK@ toggle"
@@ -121,17 +129,8 @@
 
       bindm = [
         "$mod, mouse:272, movewindow"
-	"$mod, mouse:273, resizewindow"
-        # ", mouse:272, hy3:focustab mouse"
+        "$mod, mouse:273, resizewindow"
       ];
-    };
-  };
-
-  services.hyprpaper = {
-    enable = true;
-    settings = {
-      preload = ["./wallpapers/yellow-triangle.png"];
-      wallpaper = [",./wallpapers/yellow-triangle.png"];
     };
   };
 }

@@ -27,210 +27,230 @@
     theme = let
       inherit (config.lib.formats.rasi) mkLiteral;
     in {
-      /*****----- Main Window -----*****/
+      /*
+      ****----- Main Window -----****
+      */
       window = {
-        /* properties for window widget */
-        transparency =               "real";
-        location =                   mkLiteral "center";
-        anchor =                     mkLiteral "center";
-        fullscreen =                 false;
-        width =                      mkLiteral "800px";
-      
-        /* properties for all widgets */
-        enabled =                    true;
-        margin =                     mkLiteral "0px";
-        padding =                    mkLiteral "0px";
-        border =                     mkLiteral "0px solid";
-        border-radius =              mkLiteral "10px";
-        cursor =                     "default";
-        /* Backgroud Colors */
+        /*
+        properties for window widget
+        */
+        transparency = "real";
+        location = mkLiteral "center";
+        anchor = mkLiteral "center";
+        fullscreen = false;
+        width = mkLiteral "800px";
+
+        /*
+        properties for all widgets
+        */
+        enabled = true;
+        margin = mkLiteral "0px";
+        padding = mkLiteral "0px";
+        border = mkLiteral "0px solid";
+        border-radius = mkLiteral "10px";
+        cursor = "default";
+        /*
+        Backgroud Colors
+        */
         # background-color =           mkLiteral "@background-colour";
       };
-      
-      /*****----- Main Box -----*****/
+
+      /*
+      ****----- Main Box -----****
+      */
       mainbox = {
-        enabled =                    true;
-        spacing =                    mkLiteral "10px";
-        margin =                     mkLiteral "0px";
-        padding =                    mkLiteral "20px";
-        border =                     mkLiteral "0px solid";
-        border-radius =              mkLiteral "0px 0px 0px 0px";
+        enabled = true;
+        spacing = mkLiteral "10px";
+        margin = mkLiteral "0px";
+        padding = mkLiteral "20px";
+        border = mkLiteral "0px solid";
+        border-radius = mkLiteral "0px 0px 0px 0px";
         # border-color =               mkLiteral "@border-colour";
-        background-color =           mkLiteral "transparent";
-        children =                   [ "inputbar" "mode-switcher" "message" "listview" ];
+        background-color = mkLiteral "transparent";
+        children = ["inputbar" "mode-switcher" "message" "listview"];
       };
-      
-      /*****----- Inputbar -----*****/
+
+      /*
+      ****----- Inputbar -----****
+      */
       inputbar = {
-        enabled =                    true;
-        spacing =                    mkLiteral "10px";
-        margin =                     mkLiteral "0px";
-        padding =                    mkLiteral "0px";
-        border =                     mkLiteral "0px solid";
-        border-radius =              mkLiteral "0px";
+        enabled = true;
+        spacing = mkLiteral "10px";
+        margin = mkLiteral "0px";
+        padding = mkLiteral "0px";
+        border = mkLiteral "0px solid";
+        border-radius = mkLiteral "0px";
         # border-color =               mkLiteral "@border-colour";
-        background-color =           mkLiteral "transparent";
+        background-color = mkLiteral "transparent";
         # text-color =                 mkLiteral "@foreground-colour";
-        children =                   [ "textbox-prompt-colon" "entry" ];
+        children = ["textbox-prompt-colon" "entry"];
       };
-      
+
       prompt = {
-        enabled =                    true;
-        background-color =           mkLiteral "inherit";
+        enabled = true;
+        background-color = mkLiteral "inherit";
         # text-color =                 mkLiteral "inherit";
       };
       textbox-prompt-colon = {
-        enabled =                    true;
-        padding =                    mkLiteral "5px 0px";
-        expand =                     false;
-        str =                        " ";
-        background-color =           mkLiteral "inherit";
+        enabled = true;
+        padding = mkLiteral "5px 0px";
+        expand = false;
+        str = " ";
+        background-color = mkLiteral "inherit";
         # text-color =                 mkLiteral "inherit";
       };
       entry = {
-        enabled =                    true;
-        padding =                    mkLiteral "5px 0px";
-        background-color =           mkLiteral "inherit";
+        enabled = true;
+        padding = mkLiteral "5px 0px";
+        background-color = mkLiteral "inherit";
         # text-color =                 mkLiteral "inherit";
-        cursor =                     mkLiteral "text";
-        placeholder =                "Search...";
-        placeholder-color =          mkLiteral "inherit";
+        cursor = mkLiteral "text";
+        placeholder = "Search...";
+        placeholder-color = mkLiteral "inherit";
       };
       num-filtered-rows = {
-        enabled =                    true;
-        expand =                     false;
-        background-color =           mkLiteral "inherit";
-        text-color =                 mkLiteral "inherit";
+        enabled = true;
+        expand = false;
+        background-color = mkLiteral "inherit";
+        text-color = mkLiteral "inherit";
       };
       textbox-num-sep = {
-        enabled =                    true;
-        expand =                     false;
-        str =                        "/";
-        background-color =           mkLiteral "inherit";
-        text-color =                 mkLiteral "inherit";
+        enabled = true;
+        expand = false;
+        str = "/";
+        background-color = mkLiteral "inherit";
+        text-color = mkLiteral "inherit";
       };
       num-rows = {
-        enabled =                    true;
-        expand =                     false;
-        background-color =           mkLiteral "inherit";
-        text-color =                 mkLiteral "inherit";
+        enabled = true;
+        expand = false;
+        background-color = mkLiteral "inherit";
+        text-color = mkLiteral "inherit";
       };
       case-indicator = {
-        enabled =                    true;
-        background-color =           mkLiteral "inherit";
+        enabled = true;
+        background-color = mkLiteral "inherit";
         # text-color =                 mkLiteral "inherit";
       };
-      
-      /*****----- Listview -----*****/
+
+      /*
+      ****----- Listview -----****
+      */
       listview = {
-        enabled =                    true;
-        columns =                    1;
-        lines =                      8;
-        cycle =                      true;
-        dynamic =                    true;
-        scrollbar =                  false;
-        layout =                     mkLiteral "vertical";
-        reverse =                    false;
-        fixed-height =               true;
-        fixed-columns =              true;
-        
-        spacing =                    mkLiteral "5px";
-        margin =                     mkLiteral "0px";
-        padding =                    mkLiteral "0px";
-        border =                     mkLiteral "0px solid";
-        border-radius =              mkLiteral "0px";
+        enabled = true;
+        columns = 1;
+        lines = 8;
+        cycle = true;
+        dynamic = true;
+        scrollbar = false;
+        layout = mkLiteral "vertical";
+        reverse = false;
+        fixed-height = true;
+        fixed-columns = true;
+
+        spacing = mkLiteral "5px";
+        margin = mkLiteral "0px";
+        padding = mkLiteral "0px";
+        border = mkLiteral "0px solid";
+        border-radius = mkLiteral "0px";
         # border-color =               mkLiteral "@border-colour";
-        background-color =           mkLiteral "transparent";
+        background-color = mkLiteral "transparent";
         # text-color =                 mkLiteral "@foreground-colour";
-        cursor =                     "default";
+        cursor = "default";
       };
       scrollbar = {
-        handle-width =               mkLiteral "5px ";
+        handle-width = mkLiteral "5px ";
         # handle-color =               mkLiteral "@handle-colour";
-        border-radius =              mkLiteral "10px";
+        border-radius = mkLiteral "10px";
         # background-color =           mkLiteral "@alternate-background";
       };
-      
-      /*****----- Elements -----*****/
+
+      /*
+      ****----- Elements -----****
+      */
       element = {
-        enabled =                    true;
-        spacing =                    mkLiteral "10px";
-        margin =                     mkLiteral "0px";
-        padding =                    mkLiteral "10px";
-        border =                     mkLiteral "0px solid";
-        border-radius =              mkLiteral "8px";
+        enabled = true;
+        spacing = mkLiteral "10px";
+        margin = mkLiteral "0px";
+        padding = mkLiteral "10px";
+        border = mkLiteral "0px solid";
+        border-radius = mkLiteral "8px";
         # border-color =               mkLiteral "@border-colour";
-        background-color =           mkLiteral "transparent";
+        background-color = mkLiteral "transparent";
         # text-color =                 mkLiteral "@foreground-colour";
-        cursor =                     mkLiteral "pointer";
+        cursor = mkLiteral "pointer";
       };
       element-icon = {
         # background-color =           mkLiteral "transparent";
         # text-color =                 mkLiteral "inherit";
-        size =                       mkLiteral "24px";
-        cursor =                     mkLiteral "inherit";
+        size = mkLiteral "24px";
+        cursor = mkLiteral "inherit";
       };
       element-text = {
         # background-color =           mkLiteral "transparent";
         # text-color =                 mkLiteral "inherit";
-        highlight =                  mkLiteral "inherit";
-        cursor =                     mkLiteral "inherit";
-        vertical-align =             mkLiteral "0.5";
-        horizontal-align =           mkLiteral "0.0";
+        highlight = mkLiteral "inherit";
+        cursor = mkLiteral "inherit";
+        vertical-align = mkLiteral "0.5";
+        horizontal-align = mkLiteral "0.0";
       };
-      
-      /*****----- Mode Switcher -----*****/
+
+      /*
+      ****----- Mode Switcher -----****
+      */
       mode-switcher = {
-        enabled =                    true;
-        expand =                     false;
-        spacing =                    mkLiteral "10px";
-        margin =                     mkLiteral "0px";
-        padding =                    mkLiteral "0px";
-        border =                     mkLiteral "0px solid";
-        border-radius =              mkLiteral "0px";
+        enabled = true;
+        expand = false;
+        spacing = mkLiteral "10px";
+        margin = mkLiteral "0px";
+        padding = mkLiteral "0px";
+        border = mkLiteral "0px solid";
+        border-radius = mkLiteral "0px";
         # border-color =               mkLiteral "@border-colour";
-        background-color =           mkLiteral "transparent";
+        background-color = mkLiteral "transparent";
         # text-color =                 mkLiteral "@foreground-colour";
       };
       button = {
-        padding =                    mkLiteral "12px";
-        border =                     mkLiteral "0px solid";
-        border-radius =              mkLiteral "8px";
+        padding = mkLiteral "12px";
+        border = mkLiteral "0px solid";
+        border-radius = mkLiteral "8px";
         # border-color =               mkLiteral "@border-colour";
         # background-color =           mkLiteral "@alternate-background";
         # text-color =                 mkLiteral "inherit";
-        cursor =                     mkLiteral "pointer";
+        cursor = mkLiteral "pointer";
       };
-      
-      /*****----- Message -----*****/
+
+      /*
+      ****----- Message -----****
+      */
       message = {
-        enabled =                    true;
-        margin =                     mkLiteral "0px";
-        padding =                    mkLiteral "0px";
-        border =                     mkLiteral "0px solid";
-        border-radius =              mkLiteral "0px 0px 0px 0px";
+        enabled = true;
+        margin = mkLiteral "0px";
+        padding = mkLiteral "0px";
+        border = mkLiteral "0px solid";
+        border-radius = mkLiteral "0px 0px 0px 0px";
         # border-color =               mkLiteral "@border-colour";
-        background-color =           mkLiteral "transparent";
+        background-color = mkLiteral "transparent";
         # text-color =                 mkLiteral "@foreground-colour";
       };
       textbox = {
-        padding =                    mkLiteral "12px";
-        border =                     mkLiteral "0px solid";
-        border-radius =              mkLiteral "8px";
+        padding = mkLiteral "12px";
+        border = mkLiteral "0px solid";
+        border-radius = mkLiteral "8px";
         # border-color =               mkLiteral "@border-colour";
         # background-color =           mkLiteral "@alternate-background";
         # text-color =                 mkLiteral "@foreground-colour";
-        vertical-align =             mkLiteral "0.5";
-        horizontal-align =           mkLiteral "0.0";
-        highlight =                  mkLiteral "none";
+        vertical-align = mkLiteral "0.5";
+        horizontal-align = mkLiteral "0.0";
+        highlight = mkLiteral "none";
         # placeholder-color =          mkLiteral "@foreground-colour";
-        blink =                      true;
-        markup =                     true;
+        blink = true;
+        markup = true;
       };
       error-message = {
-        padding =                    mkLiteral "0px";
-        border =                     mkLiteral "2px solid";
-        border-radius =              mkLiteral "8px";
+        padding = mkLiteral "0px";
+        border = mkLiteral "2px solid";
+        border-radius = mkLiteral "8px";
         # border-color =               mkLiteral "@border-colour";
         # background-color =           mkLiteral "@background-colour";
         # text-color =                 mkLiteral "@foreground-colour";

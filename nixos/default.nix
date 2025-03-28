@@ -1,6 +1,15 @@
-{nixpkgs, ...} @ inputs: {
+{
+  nixpkgs,
+  nixos-hardware,
+  stylix,
+  ...
+} @ inputs: {
   ivory = nixpkgs.lib.nixosSystem {
     specialArgs = {inherit inputs;};
-    modules = [./ivory];
+    modules = [
+      nixos-hardware.nixosModules.lenovo-thinkpad-t480s
+      stylix.nixosModules.stylix
+      ./ivory
+    ];
   };
 }
