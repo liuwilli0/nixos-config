@@ -30,7 +30,9 @@
         name = "Noto Color Emoji";
       };
 
-      sizes.popups = 14;
+      sizes = {
+        popups = 14;
+      };
     };
   };
 }

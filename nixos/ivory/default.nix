@@ -1,4 +1,4 @@
-{config, pkgs, ...}: {
+{pkgs, ...}: {
   imports = [
     ../../mixed/stylix.nix
     ./hardware.nix
@@ -7,6 +7,10 @@
   environment.systemPackages = with pkgs; [
     nextdns
   ];
+
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = 1;
+  };
 
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -52,17 +56,19 @@
       wireplumber.enable = true;
     };
 
-    greetd = {
-      enable = true;
-      settings.default_session.command = let hyprlandConfig = pkgs.writeText "greetd-hyprland-config" ''
-        exec-once = ${pkgs.greetd.regreet}/bin/regreet; ${pkgs.hyprland}/bin/hyprctl dispatch exit
-        misc {
-            disable_hyprland_logo = true
-            disable_splash_rendering = true
-            disable_hyprland_qtutils_check = true
-        }
-      ''; in "${pkgs.hyprland}/bin/Hyprland --config ${hyprlandConfig}";
-    };
+    # greetd = {
+    #   enable = true;
+    #   settings.default_session.command = let
+    #     configFile = pkgs.writeText "greetd-hyprland-config" ''
+    #       exec-once = ${pkgs.greetd.regreet}/bin/regreet; ${pkgs.hyprland}/bin/hyprctl dispatch exit
+    #       misc {
+    #           disable_hyprland_logo = true
+    #           disable_splash_rendering = true
+    #           disable_hyprland_qtutils_check = true
+    #       }
+    #     '';
+    #   in "${pkgs.hyprland}/bin/Hyprland --config ${configFile}";
+    # };
 
     nextdns = {
       enable = true;
@@ -85,17 +91,6 @@
     #   };
     # };
 
-    # libinput = {
-    #   enable = true;
-    #   touchpad = {
-    #     tapping = false;
-    #     middleEmulation = false;
-    #   };
-    #   mouse = {
-    #     tapping = false;
-    #     middleEmulation = false;
-    #   };
-    # };
     udisks2.enable = true;
     logind.lidSwitch = "ignore";
   };
@@ -105,17 +100,7 @@
     regreet.enable = true;
     hyprland = {
       enable = true;
-      withUWSM = true;
-    };
-    uwsm = {
-      enable = true;
-      waylandCompositors = {
-        hyprland = {
-          prettyName = "Hyprland";
-          comment = "Hyprland compositor managed by UWSM";
-          binPath = "/run/current-system/sw/bin/Hyprland";
-        };
-      };
+      # withUWSM = true;
     };
   };
 

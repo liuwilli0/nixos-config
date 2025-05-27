@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }: {
@@ -10,7 +9,6 @@
     package = pkgs.rofi-wayland;
 
     # font = "Iosevka Nerd Font 14";
-    # terminal = lib.getExe pkgs.foot;
 
     extraConfig = {
       modes = "drun,run,window";

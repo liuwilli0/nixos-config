@@ -3,7 +3,8 @@ _: {
     enable = true;
     settings = [
       {
-        spacing = 12;
+        spacing = 8;
+        height = 28;
 
         modules-left = ["hyprland/workspaces"];
         modules-right = ["pulseaudio" "backlight" "battery" "bluetooth" "network" "tray" "clock"];
@@ -48,8 +49,8 @@ _: {
           format-disabled = "󰂲 Disabled";
           format-off = "󰂲";
           format-on = "󰂯";
-          format-connected = "󰂯 {device_alias}: {status}";
-          format-connected-battery = "󰂯 {device_alias}: {status}, {device_battery_percentage}%";
+          format-connected = "󰂯 {device_alias}";
+          format-connected-battery = "󰂯 {device_battery_percentage}% {device_alias}";
           format-no-controller = "󰂯 !";
           tooltip-format = "󰂯 ?";
           tooltip-format-disabled = "Controller is disabled";
@@ -68,7 +69,7 @@ _: {
           format-wifi = "{icon} {signalStrength}% {essid}";
           format-linked = "󰤩 ";
           format-disconnected = "󰤭 ";
-          format-disabled = "󰤭 Disabled";
+          format-disabled = "󰤭  Disabled";
           format-icons = ["󰤯 " "󰤟 " "󰤢 " "󰤥 " "󰤨 "];
           tooltip-format = "󰤨  ?";
           tooltip-format-ethernet = "{ifname}: {ipaddr}/{cidr}";
@@ -90,5 +91,15 @@ _: {
     #     font-family: 'Iosevka Nerd Font';
     #   }
     # '';
+    style = ''
+      * {
+        min-height: 0;
+        font-weight: bold;
+      }
+
+      #workspaces button {
+        padding: 0 2px;
+      }
+    '';
   };
 }

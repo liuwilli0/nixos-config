@@ -17,6 +17,11 @@
 
       input = {
         follow_mouse = 0;
+        touchpad = {
+          disable_while_typing = false;
+          tap-to-click = false;
+          tap-and-drag = false;
+        };
       };
 
       misc = {
@@ -28,12 +33,12 @@
         output = "eDP-1";
       };
 
-      "$reloadWallpaper" = builtins.toString (pkgs.writeShellScript "reload-wallpaper" ''
+      "$reloadWallpaper" = "${pkgs.writeShellScript "reload-wallpaper" ''
         while read -r monitor; do
             wallpaper=$(find /etc/nixos/mixed/wallpapers -type f | shuf -n 1)
-            swww img -o "$monitor" --transition-type center --transition-step 255 --transition-fps 60 "$wallpaper"
-        done <<< $(swww query | grep -Po "^[^:]+")
-      '');
+            ${pkgs.swww}/bin/swww img -o "$monitor" --transition-type center --transition-step 255 --transition-fps 60 "$wallpaper"
+        done <<< $(${pkgs.swww}/bin/swww query | grep -Po "^[^:]+")
+      ''}";
 
       exec-once = ["waybar"];
 
@@ -87,7 +92,8 @@
         "$mod, W, exec, $reloadWallpaper"
         "$mod+CONTROL, R, exec, hyprctl reload"
         # "$mod+CONTROL, R, forcerendererreload"
-        "$mod+CONTROL, Q, exit"
+        # "$mod+CONTROL, Q, exit"
+        "$mod+CONTROL, Q, exec, exit"
 
         "$mod, D, movecurrentworkspacetomonitor, +1"
 

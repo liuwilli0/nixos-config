@@ -1,14 +1,10 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ../../mixed/stylix.nix
     ./chromium.nix
     ./firefox.nix
     ./hyprland.nix
+    ./nixvim.nix
     ./rofi.nix
     ./waybar.nix
     ./zsh.nix
@@ -31,12 +27,9 @@
     superTux
     superTuxKart
     prismlauncher
+    pysolfc
     vesktop
   ];
-
-  home.sessionVariables = {
-    NIXOS_OZONE_WL = 1;
-  };
 
   home.username = "liuwilli";
   home.homeDirectory = "/home/liuwilli";
@@ -105,10 +98,10 @@
     #   settings.theme = "gruvbox";
     # };
 
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-    };
+    # neovim = {
+    #   enable = true;
+    #   defaultEditor = true;
+    # };
 
     foot = {
       enable = true;
