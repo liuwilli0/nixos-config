@@ -1,17 +1,13 @@
-{
-  nixpkgs,
-  home-manager,
-  nixvim,
-  stylix,
-  ...
-} @ inputs: {
-  "liuwilli@ivory" = home-manager.lib.homeManagerConfiguration {
-    pkgs = nixpkgs.legacyPackages."x86_64-linux";
-    extraSpecialArgs = {inherit inputs;};
-    modules = [
-      nixvim.homeManagerModules.nixvim
-      stylix.homeManagerModules.stylix
-      ./liuwilli-at-ivory
-    ];
+{inputs, ...}: {
+  flake.homeConfigurations = {
+    "liuwilli@ivory" = inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+      extraSpecialArgs = {inherit inputs;};
+      modules = [
+        inputs.stylix.homeModules.stylix
+        ../mixed/ivory
+        ./liuwilli-at-ivory
+      ];
+    };
   };
 }

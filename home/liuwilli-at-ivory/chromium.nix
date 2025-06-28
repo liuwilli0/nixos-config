@@ -24,10 +24,11 @@
       };
       createChromiumExtension = createChromiumExtensionFor (lib.versions.major pkgs.ungoogled-chromium.version);
     in [
+      # uBlock Origin
       (createChromiumExtension {
         id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";
         sha256 = "1lnk0k8zy0w33cxpv93q1am0d7ds2na64zshvbwdnbjq8x4sw5p6";
-        version = "1.63.2";
+        version = "1.64.0";
       })
     ];
   };

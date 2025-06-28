@@ -1,10 +1,9 @@
 {pkgs, ...}: {
   imports = [
-    ../../mixed/stylix.nix
+    ./brave.nix
     ./chromium.nix
     ./firefox.nix
     ./hyprland.nix
-    ./nixvim.nix
     ./rofi.nix
     ./waybar.nix
     ./zsh.nix
@@ -14,6 +13,7 @@
     libnotify
     wl-clipboard
     brightnessctl
+    pwvucontrol
 
     # noto-fonts
     noto-fonts-cjk-sans
@@ -22,28 +22,28 @@
     # nerd-fonts.iosevka
     gnome-themes-extra
 
-    # ciscoPacketTracer8
+    resources
     vlc
+    bitwarden-desktop
+    vesktop
+    godot
     superTux
     superTuxKart
     prismlauncher
-    pysolfc
-    vesktop
   ];
+
+  home.sessionVariables = {
+    NIXOS_OZONE_WL = 1;
+  };
 
   home.username = "liuwilli";
   home.homeDirectory = "/home/liuwilli";
 
   nixpkgs.config.allowUnfree = true;
 
-  xdg.portal = {
-    enable = true;
-    extraPortals = [pkgs.xdg-desktop-portal-hyprland];
-    configPackages = [pkgs.hyprland];
-  };
-
   i18n.inputMethod = {
-    enabled = "fcitx5";
+    enable = true;
+    type = "fcitx5";
     fcitx5.addons = with pkgs; [fcitx5-chinese-addons];
   };
 
@@ -71,15 +71,35 @@
   #   gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
   # };
 
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "text/html" = "brave-browser.desktop";
+      "x-scheme-handler/http" = "brave-browser.desktop";
+      "x-scheme-handler/https" = "brave-browser.desktop";
+      "x-scheme-handler/chrome" = "brave-browser.desktop";
+      "application/x-extension-htm" = "brave-browser.desktop";
+      "application/x-extension-html" = "brave-browser.desktop";
+      "application/x-extension-shtml" = "brave-browser.desktop";
+      "application/xhtml+xml" = "brave-browser.desktop";
+      "application/x-extension-xhtml" = "brave-browser.desktop";
+      "application/x-extension-xht" = "brave-browser.desktop";
+      "x-scheme-handler/about" = "brave-browser.desktop";
+      "x-scheme-handler/unknown" = "brave-browser.desktop";
+
+      "x-scheme-handler/discord" = "vesktop.desktop";
+    };
+  };
+
   services = {
     udiskie = {
       enable = true;
+      # https://github.com/nix-community/home-manager/issues/632
       settings.program_options.file_manager = "${pkgs.foot}/bin/foot ${pkgs.yazi}/bin/yazi";
     };
 
-    cliphist.enable = true;
-    dunst.enable = true;
     swww.enable = true;
+    mako.enable = true;
   };
 
   programs = {
@@ -92,24 +112,16 @@
       extraConfig.safe.directory = "/etc/nixos";
     };
 
-    # helix = {
-    #   enable = true;
-    #   defaultEditor = true;
-    #   settings.theme = "gruvbox";
-    # };
-
-    # neovim = {
-    #   enable = true;
-    #   defaultEditor = true;
-    # };
-
     foot = {
       enable = true;
       # settings.main.font = "Iosevka Nerd Font:size=14";
     };
 
-    yazi.enable = true;
+    yazi = {
+      enable = true;
+      settings.mgr.show_hidden = true;
+    };
   };
 
-  home.stateVersion = "25.05";
+  home.stateVersion = "25.11";
 }

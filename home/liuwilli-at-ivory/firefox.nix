@@ -9,12 +9,6 @@
                   "internal:privateBrowsingAllowed"
               ]
           },
-          "{446900e4-71c2-419f-a6a7-df9c091e268b}": {
-              "origins": [],
-              "permissions": [
-                  "internal:privateBrowsingAllowed"
-              ]
-          },
           "deArrow@ajay.app": {
               "origins": [],
               "permissions": [
@@ -36,9 +30,8 @@
         force = true;
       };
 
-      extensions.packages = with inputs.firefox-addons.packages."x86_64-linux"; [
+      extensions.packages = with inputs.firefox-addons.packages.x86_64-linux; [
         ublock-origin
-        bitwarden
         dearrow
       ];
 
@@ -76,6 +69,7 @@
                       "forward-button",
                       "stop-reload-button",
                       "urlbar-container",
+                      "downloads-button",
                       "ublock0_raymondhill_net-browser-action",
                       "dearrow_ajay_app-browser-action",
                       "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action",
@@ -84,6 +78,9 @@
               }
           }
         '';
+
+        # Disable pocket
+        "extensions.pocket.enabled" = false;
 
         # 0100: STARTUP
         "browser.startup.page" = 1;
@@ -95,39 +92,19 @@
         # 0400: SAFE BROWSING
         "browser.safebrowsing.downloads.remote.enabled" = true;
 
-        # 0700: DNS / DoH / PROXY / SOCKS
-        # "network.trr.mode" = 3;
-
         # 0800: LOCATION BAR / SEARCH BAR / SUGGESTIONS / HISTORY / FORMS
         "browser.urlbar.suggest.quicksuggest.sponsored" = false;
         "browser.urlbar.suggest.quicksuggest.nonsponsored" = false;
         "datareporting.usage.uploadEnabled" = false; # Not in arkenfox, disable daily usage ping
 
-        # 4500: RFP
-        "privacy.resistFingerprinting" = false;
-        "privacy.resistFingerprinting.letterboxing" = false;
-        "webgl.disabled" = false;
-
         # 5000: OPTIONAL OPSEC
         "signon.rememberSignons" = false;
-        "places.history.enabled" = false;
+        # "places.history.enabled" = false;
 
         # 5500: OPTIONAL HARDENING
-        "media.eme.enabled" = true;
         "extensions.formautofill.addresses.enabled" = false;
         "extensions.formautofill.creditCards.enabled" = false;
       };
-    };
-  };
-
-  xdg.mimeApps = {
-    enable = true;
-    defaultApplications = {
-      "text/html" = "firefox.desktop";
-      "x-scheme-handler/http" = "firefox.desktop";
-      "x-scheme-handler/https" = "firefox.desktop";
-      "x-scheme-handler/about" = "firefox.desktop";
-      "x-scheme-handler/unknown" = "firefox.desktop";
     };
   };
 

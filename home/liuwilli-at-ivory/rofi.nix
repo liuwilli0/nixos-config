@@ -44,7 +44,7 @@
         enabled = true;
         margin = mkLiteral "0px";
         padding = mkLiteral "0px";
-        border = mkLiteral "0px solid";
+        border = mkLiteral "2px solid";
         border-radius = mkLiteral "10px";
         cursor = "default";
         /*

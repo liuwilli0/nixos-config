@@ -3,12 +3,13 @@
 
   outputs = {flake-parts, ...} @ inputs:
     flake-parts.lib.mkFlake {inherit inputs;} {
-      flake = {
-        homeConfigurations = import ./home inputs;
-        nixosConfigurations = import ./nixos inputs;
-      };
-
       systems = ["x86_64-linux"];
+
+      imports = [
+        ./nixos
+        ./home
+        ./pkgs
+      ];
 
       perSystem = {pkgs, ...}: {
         formatter = pkgs.alejandra;
@@ -22,15 +23,14 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
-    flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware";
 
-    nixvim.url = "github:nix-community/nixvim";
-    nixvim.inputs.nixpkgs.follows = "nixpkgs";
-    nixvim.inputs.flake-parts.follows = "flake-parts";
+    nvf.url = "github:NotAShelf/nvf";
+    nvf.inputs.nixpkgs.follows = "nixpkgs";
+    nvf.inputs.flake-parts.follows = "flake-parts";
 
-    stylix.url = "github:danth/stylix";
+    stylix.url = "github:nix-community/stylix";
     stylix.inputs.nixpkgs.follows = "nixpkgs";
 
     arkenfox.url = "https://github.com/arkenfox/user.js/raw/master/user.js";

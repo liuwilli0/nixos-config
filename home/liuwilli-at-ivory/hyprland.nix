@@ -33,14 +33,16 @@
         output = "eDP-1";
       };
 
+      xwayland.force_zero_scaling = true;
+
       "$reloadWallpaper" = "${pkgs.writeShellScript "reload-wallpaper" ''
         while read -r monitor; do
-            wallpaper=$(find /etc/nixos/mixed/wallpapers -type f | shuf -n 1)
-            ${pkgs.swww}/bin/swww img -o "$monitor" --transition-type center --transition-step 255 --transition-fps 60 "$wallpaper"
-        done <<< $(${pkgs.swww}/bin/swww query | grep -Po "^[^:]+")
+            wallpaper=$(find /etc/nixos/mixed/ivory/wallpapers -type f | shuf -n 1)
+            swww img -o "$monitor" --transition-type center --transition-step 255 --transition-fps 60 "$wallpaper"
+        done <<< $(swww query | grep -Po "^[^:]+")
       ''}";
 
-      exec-once = ["waybar"];
+      exec-once = ["waybar" "nm-applet" "blueman-applet" "$reloadWallpaper"];
 
       "$mod" = "SUPER";
       "$term" = "foot";
@@ -91,9 +93,7 @@
 
         "$mod, W, exec, $reloadWallpaper"
         "$mod+CONTROL, R, exec, hyprctl reload"
-        # "$mod+CONTROL, R, forcerendererreload"
-        # "$mod+CONTROL, Q, exit"
-        "$mod+CONTROL, Q, exec, exit"
+        "$mod+CONTROL, Q, exit"
 
         "$mod, D, movecurrentworkspacetomonitor, +1"
 
